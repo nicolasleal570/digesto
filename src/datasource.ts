@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { DataSource, EntitySchema } from "typeorm";
 import { env } from "./app/config/env.config.js";
 
@@ -39,9 +40,5 @@ export class Database {
     if (!Database.instance.isInitialized) {
       await Database.instance.initialize();
     }
-
-    await Database.instance.synchronize();
   }
 }
-
-export default Database.getInstance();

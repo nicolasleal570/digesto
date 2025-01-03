@@ -3,8 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "migration:generate": "typeorm-ts-node-commonjs -d ./src/datasource.ts migration:generate ./src/migrations/default",
-    "migration:run": "typeorm-ts-node-commonjs -d ./src/datasource.ts migration:run"
+    "typeorm": "typeorm-ts-node-esm",
+    "migration:generate": "npm run typeorm -- migration:generate ./src/migrations/digesto -d ./src/datasource.cli.ts",
+    "migration:run": "npm run typeorm -- -d ./src/datasource.cli.ts migration:run"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.17.11",
+    "ts-node": "^10.9.2",
     "tsx": "^4.7.1"
   }
 }

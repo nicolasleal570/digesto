@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import 'dotenv/config'
 
 import { z } from "zod";
 import { serve } from "@hono/node-server";

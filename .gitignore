@@ -30,3 +30,5 @@ lerna-debug.log*
 db.sqlite
 digesto-api-bruno
 .env
+src/migrations/*
+!src/migrations/.gitkeep
