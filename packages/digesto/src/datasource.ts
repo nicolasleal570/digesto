@@ -9,7 +9,9 @@ export class Database {
 
   public static getInstance(): DataSource {
     if (!Database.instance) {
-      console.log("Setting up the Data Source..."); 
+      console.log("Setting up database connection..."); 
+
+      console.log(env.db.database ? `Using "${env.db.database}" database...` : "No database has been found.")
 
       Database.instance = new DataSource({
         type: "postgres",
@@ -30,8 +32,6 @@ export class Database {
 
   public static async loadEntities(entities: EntitySchema[]) {
     Database.getInstance();
-
-    console.log("Loading entities...");
 
     Database.instance.setOptions({
       entities,

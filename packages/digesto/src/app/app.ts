@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from 'hono/cors'
 import { logger } from "hono/logger";
 import { entityRoutes } from "./routes/entity.routes.js";
 import type { Services } from "./services/index.js";
@@ -10,6 +11,7 @@ export function createApp(services: Services) {
 
   // Add middlewares
   app.use("*", logger());
+  app.use("/api/*", cors());
 
   app.get("/", (c) => {
     return c.text("Hello Hono!");

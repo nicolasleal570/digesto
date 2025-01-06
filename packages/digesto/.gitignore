@@ -28,6 +28,8 @@ lerna-debug.log*
 .DS_Store
 
 backend/
+dist/
+build/
 db.sqlite
 digesto-api-bruno
 .env

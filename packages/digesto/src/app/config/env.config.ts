@@ -1,9 +1,9 @@
 export const env = {
   db: {
-    host: process.env.DATABASE_HOST,
-    port: Number(process.env.DATABASE_PORT) || 5432,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
+    host: process.env.DIGESTO_DATABASE_HOST ?? "localhost",
+    port: Number(process.env.DIGESTO_DATABASE_PORT) || 5432,
+    username: process.env.DIGESTO_DATABASE_USERNAME,
+    password: process.env.DIGESTO_DATABASE_PASSWORD,
+    database: process.env.DIGESTO_DATABASE_NAME,
   },
 } as const;

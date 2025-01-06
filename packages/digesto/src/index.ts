@@ -18,43 +18,43 @@ import { YmlService } from "./app/services/yml.service.js";
 // Utils
 import { buildEntitySchemas } from "./app/utils/build-entities.js";
 
-async function bootstrap() {
-  const ymlRepository = new YmlRepository();
-  const ymlService = new YmlService(ymlRepository);
+export async function bootstrap() {
+  try {
+    const ymlRepository = new YmlRepository();
+    const ymlService = new YmlService(ymlRepository);
 
-  const ymlContent = ymlService.load();
+    const ymlContent = ymlService.load();
 
-  const entities = buildEntitySchemas(ymlContent);
+    const entities = buildEntitySchemas(ymlContent);
 
-  // 1. Load entities
-  await Database.loadEntities(entities);
+    // 1. Load entities
+    await Database.loadEntities(entities);
 
-  // 2. Create repository and service instances
-  const dataSource = Database.getInstance();
-  const entityRepository = new EntityRepository(dataSource);
-  const entityService = new EntityService(entityRepository);
+    // 2. Create repository and service instances
+    const dataSource = Database.getInstance();
+    const entityRepository = new EntityRepository(dataSource);
+    const entityService = new EntityService(entityRepository);
 
-  const services: Services = {
-    entityService,
-    ymlService,
-  };
+    const services: Services = {
+      entityService,
+      ymlService,
+    };
 
-  // 3. Create the app
-  const app = createApp(services);
+    // 3. Create the app
+    const app = createApp(services);
 
-  // 4. Serve
-  const port = Number(process.env.PORT) || 3000;
-  serve({ fetch: app.fetch, port }, (info) => {
-    console.log(`Server running at http://localhost:${info.port}`);
-  });
-}
+    // 4. Serve
+    const port = Number(process.env.DIGESTO_SERVER_PORT) || 5555;
+    serve({ fetch: app.fetch, port }, (info) => {
+      console.log(`Server running at http://localhost:${info.port}`);
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error("Error loading the YML file");
+      console.error(error.errors);
+      return;
+    }
 
-bootstrap().catch((err) => {
-  if (err instanceof z.ZodError) {
-    console.error("Error loading the YML file");
-    console.error(err.errors);
-    return;
+    console.error("Failed to start the server", error);
   }
-
-  console.error("Failed to start the server", err);
-});
+}
