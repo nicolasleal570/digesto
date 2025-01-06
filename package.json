@@ -5,7 +5,9 @@
   "scripts": {
     "start": "turbo run start",
     "build": "turbo run build",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "coverage": "turbo run coverage"
   },
   "packageManager": "pnpm@9.0.0",
   "devDependencies": {

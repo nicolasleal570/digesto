@@ -14,7 +14,9 @@
     "build": "rimraf ./dist && tsup src/index.ts src/scripts/run.ts --out-dir dist --format esm,cjs --dts",
     "typeorm": "typeorm-ts-node-esm",
     "migration:generate": "npm run typeorm -- migration:generate ./src/migrations/digesto -d ./src/datasource.cli.ts",
-    "migration:run": "npm run typeorm -- -d ./src/datasource.cli.ts migration:run"
+    "migration:run": "npm run typeorm -- -d ./src/datasource.cli.ts migration:run",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
@@ -29,9 +31,13 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.17.11",
+    "@types/supertest": "^6.0.2",
+    "@vitest/coverage-v8": "^2.1.8",
     "rimraf": "^6.0.1",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.5",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "vitest": "^2.1.8"
   }
 }

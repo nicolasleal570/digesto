@@ -8,6 +8,8 @@
     "dev": {
       "persistent": true,
       "cache": false
-    }
+    },
+    "test": {},
+    "coverage": {}
   }
 }
