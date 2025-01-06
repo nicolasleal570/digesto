@@ -27,9 +27,9 @@ lerna-debug.log*
 # misc
 .DS_Store
 
+backend/
 db.sqlite
 digesto-api-bruno
 .env
 src/migrations/*
 !src/migrations/.gitkeep
-.turbo

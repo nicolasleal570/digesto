@@ -9,7 +9,7 @@ export class Database {
 
   public static getInstance(): DataSource {
     if (!Database.instance) {
-      console.log("Setting up the Data Source...");
+      console.log("Setting up the Data Source..."); 
 
       Database.instance = new DataSource({
         type: "postgres",

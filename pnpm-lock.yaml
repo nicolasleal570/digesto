@@ -4,45 +4,53 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@hono/node-server':
-    specifier: ^1.13.7
-    version: 1.13.7(hono@4.6.15)
-  dotenv:
-    specifier: ^16.4.7
-    version: 16.4.7
-  hono:
-    specifier: ^4.6.15
-    version: 4.6.15
-  js-yaml:
-    specifier: ^4.1.0
-    version: 4.1.0
-  pg:
-    specifier: ^8.13.1
-    version: 8.13.1
-  reflect-metadata:
-    specifier: ^0.2.2
-    version: 0.2.2
-  typeorm:
-    specifier: ^0.3.20
-    version: 0.3.20(pg@8.13.1)(ts-node@10.9.2)
-  zod:
-    specifier: ^3.24.1
-    version: 3.24.1
+importers:
 
-devDependencies:
-  '@types/js-yaml':
-    specifier: ^4.0.9
-    version: 4.0.9
-  '@types/node':
-    specifier: ^20.17.11
-    version: 20.17.11
-  ts-node:
-    specifier: ^10.9.2
-    version: 10.9.2(@types/node@20.17.11)(typescript@5.7.2)
-  tsx:
-    specifier: ^4.7.1
-    version: 4.19.2
+  .:
+    devDependencies:
+      turbo:
+        specifier: ^2.3.3
+        version: 2.3.3
+
+  packages/digesto:
+    dependencies:
+      '@hono/node-server':
+        specifier: ^1.13.7
+        version: 1.13.7(hono@4.6.15)
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
+      hono:
+        specifier: ^4.6.15
+        version: 4.6.15
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      typeorm:
+        specifier: ^0.3.20
+        version: 0.3.20(pg@8.13.1)(ts-node@10.9.2)
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.1
+    devDependencies:
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
+      '@types/node':
+        specifier: ^20.17.11
+        version: 20.17.11
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.17.11)(typescript@5.7.2)
+      tsx:
+        specifier: ^4.7.1
+        version: 4.19.2
 
 packages:
 
@@ -923,6 +931,66 @@ packages:
       get-tsconfig: 4.8.1
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /turbo-darwin-64@2.3.3:
+    resolution: {integrity: sha512-bxX82xe6du/3rPmm4aCC5RdEilIN99VUld4HkFQuw+mvFg6darNBuQxyWSHZTtc25XgYjQrjsV05888w1grpaA==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-darwin-arm64@2.3.3:
+    resolution: {integrity: sha512-DYbQwa3NsAuWkCUYVzfOUBbSUBVQzH5HWUFy2Kgi3fGjIWVZOFk86ss+xsWu//rlEAfYwEmopigsPYSmW4X15A==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-64@2.3.3:
+    resolution: {integrity: sha512-eHj9OIB0dFaP6BxB88jSuaCLsOQSYWBgmhy2ErCu6D2GG6xW3b6e2UWHl/1Ho9FsTg4uVgo4DB9wGsKa5erjUA==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-arm64@2.3.3:
+    resolution: {integrity: sha512-NmDE/NjZoDj1UWBhMtOPmqFLEBKhzGS61KObfrDEbXvU3lekwHeoPvAMfcovzswzch+kN2DrtbNIlz+/rp8OCg==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-64@2.3.3:
+    resolution: {integrity: sha512-O2+BS4QqjK3dOERscXqv7N2GXNcqHr9hXumkMxDj/oGx9oCatIwnnwx34UmzodloSnJpgSqjl8iRWiY65SmYoQ==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-arm64@2.3.3:
+    resolution: {integrity: sha512-dW4ZK1r6XLPNYLIKjC4o87HxYidtRRcBeo/hZ9Wng2XM/MqqYkAyzJXJGgRMsc0MMEN9z4+ZIfnSNBrA0b08ag==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo@2.3.3:
+    resolution: {integrity: sha512-DUHWQAcC8BTiUZDRzAYGvpSpGLiaOQPfYXlCieQbwUvmml/LRGIe3raKdrOPOoiX0DYlzxs2nH6BoWJoZrj8hA==}
+    hasBin: true
+    optionalDependencies:
+      turbo-darwin-64: 2.3.3
+      turbo-darwin-arm64: 2.3.3
+      turbo-linux-64: 2.3.3
+      turbo-linux-arm64: 2.3.3
+      turbo-windows-64: 2.3.3
+      turbo-windows-arm64: 2.3.3
     dev: true
 
   /typeorm@0.3.20(pg@8.13.1)(ts-node@10.9.2):
