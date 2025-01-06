@@ -24,7 +24,7 @@ export function buildEntitySchemas(ymlContent: YmlSchema): EntitySchema[] {
         primary: !!propDef.primary,
         generated: propDef.generated,
         length: propDef.length,
-        nullable: true, // TODO: Review this behavior
+        nullable: !propDef.primary, // TODO: Review this behavior
       };
     }
 
