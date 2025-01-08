@@ -20,7 +20,7 @@ export class Database {
         username: env.db.username,
         password: env.db.password,
         database: env.db.database,
-        synchronize: false,
+        synchronize: true,
         migrationsRun: true,
         logging: true,
         migrations: ["./migrations/*.js"],
