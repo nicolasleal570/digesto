@@ -103,7 +103,7 @@ Here’s an example **`backend/api.yml`** file:
 name: My pet app
 tables:
   Cat:
-	tableName: cats
+    tableName: cats
 	properties:
 	  id:
 		type: int
@@ -124,7 +124,9 @@ tables:
 When you run `npx digesto`:
 - A connection to your database is established via TypeORM.
 - The `Cat` and `User` entities are created dynamically.
-- A CRUD API is exposed at `/api/collections/Cat`, `/api/collections/Cat/:id`, etc.
+- A CRUD API is exposed at `/api/collections/:tableName`, `/api/collections/:tableName/:id`, etc. For example:
+	- `/api/collections/cats`
+	- `/api/collections/cats/23`
 
 ---
 
