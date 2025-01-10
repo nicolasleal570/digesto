@@ -1,13 +1,42 @@
 {
   "name": "digesto",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "type": "module",
+  "description": "Digesto is an experimental Node.js/TypeScript library that quickly spins up a dynamic, RESTful backend from a simple YAML, NO manual server coding required.",
+  "author": "Nicolás Leal <lealnicolas96@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicolasleal570/digesto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nicolasleal570/digesto/issues"
+  },
+  "homepage": "https://github.com/nicolasleal570/digesto#readme",
+  "keywords": [
+    "digesto",
+    "backend",
+    "micro-backend",
+    "api",
+    "rest",
+    "admin",
+    "database",
+    "yaml",
+    "headless",
+    "crud"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "digesto": "./dist/scripts/run.cjs"
+    "digesto": "dist/scripts/run.cjs"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
@@ -39,5 +68,8 @@
     "tsup": "^8.3.5",
     "tsx": "^4.7.1",
     "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
