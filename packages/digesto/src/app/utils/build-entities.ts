@@ -3,7 +3,7 @@ import {
   type ColumnType,
   type EntitySchemaColumnOptions,
 } from "typeorm";
-import { type YmlSchema } from "../schemas/yml.schema.js";
+import { YmlColumnTypeSchema, type YmlSchema } from "../schemas/yml.schema.js";
 import { UnsupportedColumnTypeError } from "../errors/schema.errors.js";
 
 /**
@@ -49,9 +49,11 @@ export function buildEntitySchemas(ymlContent: YmlSchema): EntitySchema[] {
  * Maps our YAML property types (e.g., "varchar", "number", "timestamp")
  * to TypeORM recognized types (e.g., "varchar", "int", "timestamp", etc.).
  */
-function mapYamlTypeToTypeORM(yamlType: string): ColumnType {
+function mapYamlTypeToTypeORM(yamlType: YmlColumnTypeSchema): ColumnType {
   switch (yamlType) {
-    case "string": {
+    case "string":
+    case "email":
+    case "url": {
       return "varchar";
     }
 

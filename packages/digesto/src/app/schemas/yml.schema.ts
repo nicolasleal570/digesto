@@ -7,6 +7,8 @@ export const columnTypeSchema = z.union([
   z.literal("int"),
   z.literal("number"),
   z.literal("decimal"),
+  z.literal("url"),
+  z.literal("email"),
   z.literal("date"),
   z.literal("timestamp"),
 ]);
@@ -44,4 +46,5 @@ export const ymlSchema = z.object({
 export type YmlSchema = z.infer<typeof ymlSchema>;
 export type YmlTableSchema = z.infer<typeof tableSchema>;
 export type YmlColumnSchema = z.infer<typeof columnSchema>;
+export type YmlColumnTypeSchema = z.infer<typeof columnTypeSchema>;
 export type YmlValidationSchema = z.infer<typeof columnValidationOptionsSchema>;

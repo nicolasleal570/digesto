@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   YmlColumnSchema,
+  YmlColumnTypeSchema,
   YmlTableSchema,
   YmlValidationSchema,
 } from "../schemas/yml.schema.js";
@@ -8,7 +9,7 @@ import {
 /**
  * Maps the base type from the column definition to a corresponding Zod schema.
  */
-function mapBaseTypeToZod(type: string): z.ZodTypeAny {
+function mapBaseTypeToZod(type: YmlColumnTypeSchema): z.ZodTypeAny {
   switch (type) {
     case "int": {
       return z.number().int();
@@ -23,6 +24,14 @@ function mapBaseTypeToZod(type: string): z.ZodTypeAny {
     case "textarea":
     case "richText": {
       return z.string();
+    }
+
+    case "email": {
+      return z.string().email();
+    }
+
+    case "url": {
+      return z.string().url();
     }
 
     case "date":
