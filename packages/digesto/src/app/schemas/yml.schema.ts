@@ -11,6 +11,7 @@ export const columnTypeSchema = z.union([
   z.literal("email"),
   z.literal("date"),
   z.literal("timestamp"),
+  z.literal("boolean"),
 ]);
 
 export const columnValidationOptionsSchema = z.object({

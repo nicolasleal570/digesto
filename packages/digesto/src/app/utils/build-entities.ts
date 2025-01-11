@@ -79,6 +79,10 @@ function mapYamlTypeToTypeORM(yamlType: YmlColumnTypeSchema): ColumnType {
       return "text";
     }
 
+    case "boolean": {
+      return "boolean";
+    }
+
     default: {
       throw new UnsupportedColumnTypeError(yamlType);
     }

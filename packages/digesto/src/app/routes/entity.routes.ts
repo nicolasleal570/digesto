@@ -32,7 +32,7 @@ export function entityRoutes(entityService: EntityService): Hono {
     validateSchema("params", getAllEntitySchema),
     async (c) => {
       const tableName = c.req.param("tableName");
-      const results = await entityService.getAll(tableName, 10);
+      const results = await entityService.getAll(tableName, 100);
       return c.json({ data: results });
     }
   );

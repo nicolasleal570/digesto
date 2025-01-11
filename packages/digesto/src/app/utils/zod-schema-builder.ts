@@ -43,6 +43,10 @@ function mapBaseTypeToZod(type: YmlColumnTypeSchema): z.ZodTypeAny {
       }, z.date());
     }
 
+    case "boolean": {
+      return z.boolean();
+    }
+
     default: {
       return z.any();
     }
