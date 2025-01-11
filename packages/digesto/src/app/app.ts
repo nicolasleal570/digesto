@@ -36,7 +36,7 @@ export function createApp(services: Services) {
     if(err instanceof z.ZodError) {
       c.status(400);
       return c.json({
-        message: err.message,
+        message: err.errors,
         error: "ValidationError",
         statusCode: 400,
       });

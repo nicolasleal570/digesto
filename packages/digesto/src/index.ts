@@ -33,7 +33,7 @@ export async function bootstrap() {
     // 2. Create repository and service instances
     const dataSource = Database.getInstance();
     const entityRepository = new EntityRepository(dataSource);
-    const entityService = new EntityService(entityRepository);
+    const entityService = new EntityService(entityRepository, ymlService);
 
     const services: Services = {
       entityService,

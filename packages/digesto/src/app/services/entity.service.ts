@@ -1,13 +1,13 @@
 import { NotFoundError } from "../errors/http.errors.js";
 import { EntityRepository } from "../repositories/entity.repository.js";
 import type { ObjectLiteral } from "typeorm";
+import { YmlService } from "./yml.service.js";
 
 export class EntityService {
-  private readonly entityRepository: EntityRepository;
-
-  constructor(entityRepository: EntityRepository) {
-    this.entityRepository = entityRepository;
-  }
+  constructor(
+    private readonly entityRepository: EntityRepository,
+    private readonly ymlService: YmlService
+  ) {}
 
   /**
    * Retrieves a list of entities from the specified table, limited by `limit`.
@@ -37,6 +37,8 @@ export class EntityService {
     tableName: string,
     data: Record<string, any>
   ): Promise<ObjectLiteral> {
+    this.ymlService.validateTableSchema(tableName, data);
+
     return this.entityRepository.create(tableName, data);
   }
 
@@ -55,6 +57,8 @@ export class EntityService {
       ...existingItem,
       ...data,
     };
+
+    this.ymlService.validateTableSchema(tableName, updatedItem);
 
     return this.entityRepository.save(tableName, updatedItem);
   }

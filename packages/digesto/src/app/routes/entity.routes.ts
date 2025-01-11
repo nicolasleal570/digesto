@@ -1,5 +1,13 @@
 import { Hono } from "hono";
 import { EntityService } from "../services/entity.service.js";
+import { validateSchema } from "../middlewares/validate-request-schema.middleware.js";
+import {
+  getAllEntitySchema,
+  getOneEntitySchema,
+  createEntitySchema,
+  updateEntitySchema,
+  deleteEntitySchema,
+} from "../schemas/entity.schema.js";
 
 /**
  * Creates a set of routes for CRUD operations on entities in the database.
@@ -19,45 +27,66 @@ import { EntityService } from "../services/entity.service.js";
 export function entityRoutes(entityService: EntityService): Hono {
   const router = new Hono();
 
-  router.get("/:tableName", async (c) => {
-    const tableName = c.req.param("tableName");
-    const results = await entityService.getAll(tableName, 10);
-    return c.json({ data: results });
-  });
+  router.get(
+    "/:tableName",
+    validateSchema("params", getAllEntitySchema),
+    async (c) => {
+      const tableName = c.req.param("tableName");
+      const results = await entityService.getAll(tableName, 10);
+      return c.json({ data: results });
+    }
+  );
 
-  router.get("/:tableName/:id", async (c) => {
-    const tableName = c.req.param("tableName");
-    const itemId = c.req.param("id");
+  router.get(
+    "/:tableName/:id",
+    validateSchema("params", getOneEntitySchema),
+    async (c) => {
+      const tableName = c.req.param("tableName");
+      const itemId = c.req.param("id");
 
-    const item = await entityService.getOne(tableName, itemId);
-    return c.json(item);
-  });
+      const item = await entityService.getOne(tableName, itemId);
+      return c.json(item);
+    }
+  );
 
-  router.post("/:tableName", async (c) => {
-    const tableName = c.req.param("tableName");
-    const body = await c.req.json();
+  router.post(
+    "/:tableName",
+    validateSchema("params", createEntitySchema),
+    async (c) => {
+      const tableName = c.req.param("tableName");
+      const body = await c.req.json();
 
-    const savedItem = await entityService.create(tableName, body);
-    return c.json(savedItem);
-  });
+      const savedItem = await entityService.create(tableName, body);
+      c.status(201);
+      return c.json(savedItem);
+    }
+  );
 
-  router.put("/:tableName/:id", async (c) => {
-    const tableName = c.req.param("tableName");
-    const itemId = c.req.param("id");
-    const body = await c.req.json();
+  router.put(
+    "/:tableName/:id",
+    validateSchema("params", updateEntitySchema),
+    async (c) => {
+      const tableName = c.req.param("tableName");
+      const itemId = c.req.param("id");
+      const body = await c.req.json();
 
-    const updatedItem = await entityService.update(tableName, itemId, body);
-    return c.json(updatedItem);
-  });
+      const updatedItem = await entityService.update(tableName, itemId, body);
+      return c.json(updatedItem);
+    }
+  );
 
-  router.delete("/:tableName/:id", async (c) => {
-    const tableName = c.req.param("tableName");
-    const itemId = c.req.param("id");
+  router.delete(
+    "/:tableName/:id",
+    validateSchema("params", deleteEntitySchema),
+    async (c) => {
+      const tableName = c.req.param("tableName");
+      const itemId = c.req.param("id");
 
-    const result = await entityService.delete(tableName, itemId);
+      const result = await entityService.delete(tableName, itemId);
 
-    return c.json(result);
-  });
+      return c.json(result);
+    }
+  );
 
   return router;
 }

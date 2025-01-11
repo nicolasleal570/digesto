@@ -12,6 +12,7 @@ export const columnTypeSchema = z.union([
 export const columnValidationOptionsSchema = z.object({
   required: z.boolean().optional(),
   min: z.number().optional(),
+  max: z.number().optional(),
 });
 
 export const columnSchema = z.object({
@@ -39,3 +40,6 @@ export const ymlSchema = z.object({
 });
 
 export type YmlSchema = z.infer<typeof ymlSchema>;
+export type YmlTableSchema = z.infer<typeof tableSchema>;
+export type YmlColumnSchema = z.infer<typeof columnSchema>;
+export type YmlValidationSchema = z.infer<typeof columnValidationOptionsSchema>;

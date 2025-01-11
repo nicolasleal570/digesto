@@ -38,8 +38,8 @@
     "package.json"
   ],
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "tsx watch src/index.ts",
+    "start": "node dist/scripts/run.js",
+    "dev": "tsx watch src/scripts/run.ts",
     "build": "rimraf ./dist && tsup src/index.ts src/scripts/run.ts --out-dir dist --format esm,cjs --dts",
     "typeorm": "typeorm-ts-node-esm",
     "migration:generate": "npm run typeorm -- migration:generate ./src/migrations/digesto -d ./src/datasource.cli.ts",
