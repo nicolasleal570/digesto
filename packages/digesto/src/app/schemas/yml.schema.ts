@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 export const columnTypeSchema = z.union([
+  z.literal("string"),
+  z.literal("textarea"),
+  z.literal("richText"),
   z.literal("int"),
   z.literal("number"),
-  z.literal("varchar"),
   z.literal("date"),
   z.literal("timestamp"),
-  z.literal("richText"),
 ]);
 
 export const columnValidationOptionsSchema = z.object({

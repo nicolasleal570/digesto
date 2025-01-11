@@ -46,7 +46,6 @@ export function buildEntitySchemas(ymlContent: YmlSchema): EntitySchema[] {
  */
 function mapYamlTypeToTypeORM(yamlType: string): ColumnType {
   switch (yamlType) {
-    case "varchar":
     case "string":
       return "varchar";
     case "number":
@@ -56,6 +55,7 @@ function mapYamlTypeToTypeORM(yamlType: string): ColumnType {
       return "date";
     case "timestamp":
       return "timestamp";
+    case "textarea":
     case "richText":
       return "text";
     default:

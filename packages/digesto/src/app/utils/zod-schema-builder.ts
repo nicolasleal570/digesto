@@ -10,22 +10,33 @@ import {
  */
 function mapBaseTypeToZod(type: string): z.ZodTypeAny {
   switch (type) {
-    case "int":
+    case "int": {
       return z.number().int();
+    }
+
     case "number":
+    case "decimal": {
       return z.number();
-    case "varchar":
+    }
+
     case "string":
+    case "textarea":
+    case "richText": {
       return z.string();
+    }
+
     case "date":
-    case "timestamp":
+    case "timestamp": {
       return z.preprocess((arg) => {
         if (typeof arg === "string" || arg instanceof Date) {
           return new Date(arg);
         }
       }, z.date());
-    default:
+    }
+
+    default: {
       return z.any();
+    }
   }
 }
 
