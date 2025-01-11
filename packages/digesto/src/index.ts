@@ -17,6 +17,7 @@ import { YmlService } from "./app/services/yml.service.js";
 
 // Utils
 import { buildEntitySchemas } from "./app/utils/build-entities.js";
+import { UnsupportedColumnTypeError } from "./app/errors/schema.errors.js";
 
 export async function bootstrap() {
   try {
@@ -52,6 +53,12 @@ export async function bootstrap() {
     if (error instanceof z.ZodError) {
       console.error("Error loading the YML file");
       console.error(error.errors);
+      return;
+    }
+
+    if (error instanceof UnsupportedColumnTypeError) {
+      console.error("Error loading the YML file");
+      console.error(error.message);
       return;
     }
 

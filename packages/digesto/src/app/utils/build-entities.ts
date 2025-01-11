@@ -1,5 +1,10 @@
-import { EntitySchema, type ColumnType, type EntitySchemaColumnOptions } from "typeorm";
-import type { YmlSchema } from "../schemas/yml.schema.js";
+import {
+  EntitySchema,
+  type ColumnType,
+  type EntitySchemaColumnOptions,
+} from "typeorm";
+import { type YmlSchema } from "../schemas/yml.schema.js";
+import { UnsupportedColumnTypeError } from "../errors/schema.errors.js";
 
 /**
  * Dynamically creates an array of TypeORM EntitySchemas from your YAML config.
@@ -46,19 +51,34 @@ export function buildEntitySchemas(ymlContent: YmlSchema): EntitySchema[] {
  */
 function mapYamlTypeToTypeORM(yamlType: string): ColumnType {
   switch (yamlType) {
-    case "string":
+    case "string": {
       return "varchar";
+    }
+
     case "number":
-    case "int":
+    case "decimal": {
+      return "float";
+    }
+
+    case "int": {
       return "int";
-    case "date":
+    }
+
+    case "date": {
       return "date";
-    case "timestamp":
+    }
+
+    case "timestamp": {
       return "timestamp";
+    }
+
     case "textarea":
-    case "richText":
+    case "richText": {
       return "text";
-    default:
-      return "varchar"; // fallback
+    }
+
+    default: {
+      throw new UnsupportedColumnTypeError(yamlType);
+    }
   }
 }

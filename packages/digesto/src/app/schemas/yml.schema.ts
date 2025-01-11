@@ -6,6 +6,7 @@ export const columnTypeSchema = z.union([
   z.literal("richText"),
   z.literal("int"),
   z.literal("number"),
+  z.literal("decimal"),
   z.literal("date"),
   z.literal("timestamp"),
 ]);
