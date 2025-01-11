@@ -1,6 +1,7 @@
 import { buildTableSchema } from "../utils/zod-schema-builder.js";
 import type { YmlRepository } from "../repositories/yml.repository.js";
 import { YmlSchema, ymlSchema } from "../schemas/yml.schema.js";
+import * as bcrypt from "bcrypt";
 
 type TableSchemas = Record<string, ReturnType<typeof buildTableSchema>>;
 
@@ -42,6 +43,18 @@ export class YmlService {
     this.tableSchemas = tableSchemas;
   }
 
+  private getTableSchemaByTableName(tableName: string) {
+    if (!this.parsedYmlContent) {
+      return;
+    }
+
+    const tableSchema = Object.values(this.parsedYmlContent.tables).find(
+      (item) => item.tableName === tableName
+    );
+
+    return tableSchema;
+  }
+
   public validateTableSchema(
     tableName: string,
     data: Record<string, unknown>,
@@ -61,9 +74,7 @@ export class YmlService {
       return;
     }
 
-    const tableSchema = Object.values(this.parsedYmlContent.tables).find(
-      (item) => item.tableName === tableName
-    );
+    const tableSchema = this.getTableSchemaByTableName(tableName);
 
     let omitFields = options?.omitFields ?? {};
 
@@ -95,5 +106,38 @@ export class YmlService {
     }
 
     zodSchema.parse(data);
+  }
+
+  public validateAndHashSensitiveColumns(
+    tableName: string,
+    data: Record<string, unknown>
+  ) {
+    this.load();
+
+    if (!this.tableSchemas || !this.parsedYmlContent) {
+      return;
+    }
+
+    const tableSchema = this.getTableSchemaByTableName(tableName);
+
+    if (!tableSchema) {
+      return;
+    }
+
+    const sensitiveFields = Object.entries(tableSchema.columns).filter(
+      ([, item]) => item.type === "password"
+    );
+
+    if (sensitiveFields.length === 0) {
+      return;
+    }
+
+    const saltRounds = 10;
+
+    for (let [fieldName] of sensitiveFields) {
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hash = bcrypt.hashSync(data[fieldName] as string, salt);
+      data[fieldName] = hash;
+    }
   }
 }

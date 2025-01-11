@@ -53,7 +53,8 @@ function mapYamlTypeToTypeORM(yamlType: YmlColumnTypeSchema): ColumnType {
   switch (yamlType) {
     case "string":
     case "email":
-    case "url": {
+    case "url":
+    case "password": {
       return "varchar";
     }
 

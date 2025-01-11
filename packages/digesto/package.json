@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "hono": "^4.6.15",
     "js-yaml": "^4.1.0",
@@ -58,6 +59,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.17.11",
     "@types/supertest": "^6.0.2",

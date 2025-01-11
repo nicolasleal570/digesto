@@ -12,6 +12,7 @@ export const columnTypeSchema = z.union([
   z.literal("date"),
   z.literal("timestamp"),
   z.literal("boolean"),
+  z.literal("password"),
 ]);
 
 export const columnValidationOptionsSchema = z.object({

@@ -34,6 +34,10 @@ function mapBaseTypeToZod(type: YmlColumnTypeSchema): z.ZodTypeAny {
       return z.string().url();
     }
 
+    case "password": {
+      return z.string().min(6);
+    }
+
     case "date":
     case "timestamp": {
       return z.preprocess((arg) => {

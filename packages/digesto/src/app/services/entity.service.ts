@@ -38,6 +38,7 @@ export class EntityService {
     data: Record<string, any>
   ): Promise<ObjectLiteral> {
     this.ymlService.validateTableSchema(tableName, data);
+    this.ymlService.validateAndHashSensitiveColumns(tableName, data);
 
     return this.entityRepository.create(tableName, data);
   }
