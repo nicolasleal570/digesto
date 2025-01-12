@@ -3,19 +3,38 @@ import { EntityRepository } from "../repositories/entity.repository.js";
 import type { ObjectLiteral } from "typeorm";
 import { SchemaValidationService } from "./schema-validation.service.js";
 import { HashingService } from "./hashing.service.js";
+import { GetAllQueryParamsSchema } from "../schemas/entity.schema.js";
+import { Pagination, PaginationService } from "./pagination.service.js";
 
 export class EntityService {
   constructor(
     private readonly entityRepository: EntityRepository,
     private readonly schemaValidationService: SchemaValidationService,
-    private readonly hashingService: HashingService
+    private readonly hashingService: HashingService,
+    private readonly paginationService: PaginationService
   ) {}
 
   /**
    * Retrieves a list of entities from the specified table, limited by `limit`.
    */
-  public async getAll(tableName: string, limit = 10): Promise<ObjectLiteral[]> {
-    return this.entityRepository.findAll(tableName, limit);
+  public async getAll(
+    tableName: string,
+    queryParams: GetAllQueryParamsSchema
+  ): Promise<Pagination<ObjectLiteral>> {
+    const page = Number.parseInt(queryParams.page ?? "") || 1;
+    const perPage = Number.parseInt(queryParams.perPage ?? "") || 10;
+
+    const query = this.entityRepository.findAll(tableName);
+
+    // TODO: Load relationships
+
+    // TODO: Apply filters
+
+    // TODO: Apply complex ordering
+    query.orderBy(`${tableName}.id`, "DESC");
+
+    // Apply pagination
+    return this.paginationService.paginate({ page, perPage, query });
   }
 
   /**

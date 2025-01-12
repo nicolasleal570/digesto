@@ -26,3 +26,10 @@ export const getOneEntitySchema = z
 export const createEntitySchema = getAllEntitySchema;
 export const updateEntitySchema = getOneEntitySchema;
 export const deleteEntitySchema = getOneEntitySchema;
+
+export const getAllQueryParamsSchema = z.object({
+  page: z.string().regex(/^\d+$/, "Page must be a valid positive integer").optional(),
+  perPage: z.string().regex(/^\d+$/, "Per page must be a valid positive integer").optional(),
+});
+
+export type GetAllQueryParamsSchema = z.infer<typeof getAllQueryParamsSchema>;

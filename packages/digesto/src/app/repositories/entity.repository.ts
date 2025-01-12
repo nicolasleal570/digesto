@@ -1,5 +1,10 @@
-import { DataSource, type ObjectLiteral, Repository } from 'typeorm';
-import { NotFoundError } from '../errors/http.errors.js';
+import {
+  DataSource,
+  type ObjectLiteral,
+  Repository,
+  SelectQueryBuilder,
+} from "typeorm";
+import { NotFoundError } from "../errors/http.errors.js";
 
 export class EntityRepository {
   private readonly dataSource: DataSource;
@@ -26,18 +31,15 @@ export class EntityRepository {
   /**
    * Retrieves a list of rows from a table, limited by `limit`.
    */
-  public async findAll(tableName: string, limit = 10): Promise<ObjectLiteral[]> {
-    return this.getRepository(tableName)
-      .createQueryBuilder(tableName)
-      .take(limit)
-      .getMany();
+  public findAll(tableName: string): SelectQueryBuilder<ObjectLiteral> {
+    return this.getRepository(tableName).createQueryBuilder(tableName);
   }
 
   /**
    * Retrieves a single row by ID.
    */
   public async findOne(
-    tableName: string, 
+    tableName: string,
     id: string | number
   ): Promise<ObjectLiteral | null> {
     return this.getRepository(tableName)
@@ -50,7 +52,7 @@ export class EntityRepository {
    * Creates and saves a new entity row.
    */
   public async create(
-    tableName: string, 
+    tableName: string,
     data: Record<string, any>
   ): Promise<ObjectLiteral> {
     const repository = this.getRepository(tableName);
@@ -62,7 +64,7 @@ export class EntityRepository {
    * Saves an existing entity row (for updates).
    */
   public async save(
-    tableName: string, 
+    tableName: string,
     item: ObjectLiteral
   ): Promise<ObjectLiteral> {
     return this.getRepository(tableName).save(item);
@@ -72,7 +74,7 @@ export class EntityRepository {
    * Deletes a row by ID.
    */
   public async delete(
-    tableName: string, 
+    tableName: string,
     id: string | number
   ): Promise<boolean> {
     const result = await this.getRepository(tableName).delete(id);

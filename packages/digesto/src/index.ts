@@ -20,9 +20,11 @@ import { buildEntitySchemas } from "./app/utils/build-entities.js";
 import { UnsupportedColumnTypeError } from "./app/errors/schema.errors.js";
 import { SchemaValidationService } from "./app/services/schema-validation.service.js";
 import { HashingService } from "./app/services/hashing.service.js";
+import { PaginationService } from "./app/services/pagination.service.js";
 
 export async function bootstrap() {
   try {
+    const paginationService = new PaginationService();
     const ymlRepository = new YmlRepository();
     const ymlService = new YmlService(ymlRepository);
 
@@ -43,7 +45,8 @@ export async function bootstrap() {
     const entityService = new EntityService(
       entityRepository,
       schemaValidationService,
-      hashingService
+      hashingService,
+      paginationService
     );
 
     const services: Services = {
@@ -51,6 +54,7 @@ export async function bootstrap() {
       ymlService,
       schemaValidationService,
       hashingService,
+      paginationService,
     };
 
     // 3. Create the app

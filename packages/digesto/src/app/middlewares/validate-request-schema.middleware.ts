@@ -8,7 +8,7 @@ import { createMiddleware } from "hono/factory";
  * @returns
  */
 export function validateSchema(
-  property: "body" | "params",
+  property: "body" | "params" | "query",
   schema: Zod.ZodSchema
 ) {
   return createMiddleware(async (c, next) => {
@@ -20,6 +20,10 @@ export function validateSchema(
 
     if (property === "params") {
       dataToValidate = c.req.param();
+    }
+
+    if (property === "query") {
+      dataToValidate = c.req.query();
     }
 
     // Check data and throw an error if its not valid

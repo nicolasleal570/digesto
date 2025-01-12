@@ -7,6 +7,8 @@ import {
   createEntitySchema,
   updateEntitySchema,
   deleteEntitySchema,
+  getAllQueryParamsSchema,
+  GetAllQueryParamsSchema,
 } from "../schemas/entity.schema.js";
 
 /**
@@ -30,10 +32,12 @@ export function entityRoutes(entityService: EntityService): Hono {
   router.get(
     "/:tableName",
     validateSchema("params", getAllEntitySchema),
+    validateSchema("query", getAllQueryParamsSchema),
     async (c) => {
+      const query = c.req.query() as GetAllQueryParamsSchema;
       const tableName = c.req.param("tableName");
-      const results = await entityService.getAll(tableName, 100);
-      return c.json({ data: results });
+      const results = await entityService.getAll(tableName, query);
+      return c.json(results);
     }
   );
 
