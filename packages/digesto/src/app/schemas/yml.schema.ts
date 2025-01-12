@@ -13,6 +13,7 @@ export const columnTypeSchema = z.union([
   z.literal("timestamp"),
   z.literal("boolean"),
   z.literal("password"),
+  z.literal("select"),
 ]);
 
 export const columnValidationOptionsSchema = z.object({
@@ -21,7 +22,8 @@ export const columnValidationOptionsSchema = z.object({
   max: z.number().optional(),
 });
 
-export const columnSchema = z.object({
+// Define the base column schema
+const baseColumnSchema = z.object({
   type: columnTypeSchema,
   length: z.number().optional(),
   primary: z.boolean().optional(),
@@ -34,6 +36,28 @@ export const columnSchema = z.object({
   ]),
   validation: columnValidationOptionsSchema.optional(),
 });
+
+export const columnSchema = baseColumnSchema
+  .extend({
+    options: z.array(z.string()).optional(),
+  })
+  .refine(
+    (data) =>
+      data.type !== "select" || (data.options && data.options.length > 0),
+    {
+      message:
+        'A list of "options" is required and must be a non-empty array for columns of type "select".',
+      path: ["options"],
+    }
+  )
+  .refine((data) => data.type !== "select" || data.generated === undefined, {
+    message: '"generated" is not allowed for columns of type "select".',
+    path: ["generated"],
+  })
+  .refine((data) => data.type !== "select" || data.primary === undefined, {
+    message: '"primary" is not allowed for columns of type "select".',
+    path: ["primary"],
+  });
 
 export const tableSchema = z.object({
   tableName: z.string(),

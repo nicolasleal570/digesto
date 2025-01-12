@@ -23,7 +23,7 @@ export function buildEntitySchemas(ymlContent: YmlSchema): EntitySchema[] {
     for (const propKey in tableDef.columns) {
       const propDef = tableDef.columns[propKey];
 
-      columns[propKey] = {
+      const options: EntitySchemaColumnOptions = {
         name: propKey,
         type: mapYamlTypeToTypeORM(propDef.type),
         primary: !!propDef.primary,
@@ -31,6 +31,13 @@ export function buildEntitySchemas(ymlContent: YmlSchema): EntitySchema[] {
         length: propDef.length,
         nullable: !propDef.primary, // TODO: Review this behavior
       };
+
+      if (propDef.type === "select") {
+        options.enum = propDef.options;
+        options.enumName = `${propKey}_enum`;
+      }
+
+      columns[propKey] = options;
     }
 
     const entitySchema = new EntitySchema({
@@ -82,6 +89,10 @@ function mapYamlTypeToTypeORM(yamlType: YmlColumnTypeSchema): ColumnType {
 
     case "boolean": {
       return "boolean";
+    }
+
+    case "select": {
+      return "enum";
     }
 
     default: {

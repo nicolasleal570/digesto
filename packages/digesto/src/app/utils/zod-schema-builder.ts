@@ -5,11 +5,17 @@ import {
   YmlTableSchema,
   YmlValidationSchema,
 } from "../schemas/yml.schema.js";
+import { SelectOptionsMissingError } from "../errors/schema.errors.js";
 
 /**
  * Maps the base type from the column definition to a corresponding Zod schema.
  */
-function mapBaseTypeToZod(type: YmlColumnTypeSchema): z.ZodTypeAny {
+function mapBaseTypeToZod(
+  type: YmlColumnTypeSchema,
+  options?: {
+    selectOptions: string[];
+  }
+): z.ZodTypeAny {
   switch (type) {
     case "int": {
       return z.number().int();
@@ -49,6 +55,18 @@ function mapBaseTypeToZod(type: YmlColumnTypeSchema): z.ZodTypeAny {
 
     case "boolean": {
       return z.boolean();
+    }
+
+    case "select": {
+      if (!options?.selectOptions?.length) {
+        throw new SelectOptionsMissingError();
+      }
+
+      return z.string().refine((val) => options.selectOptions.includes(val), {
+        message: `Value must be one of the following options: ${options.selectOptions.join(
+          ", "
+        )}`,
+      });
     }
 
     default: {
@@ -117,7 +135,9 @@ function applyValidations(
  * Converts a column definition to a Zod schema, including type mapping and validations.
  */
 export function getZodForColumn(columnDef: YmlColumnSchema) {
-  let schema = mapBaseTypeToZod(columnDef.type);
+  let schema = mapBaseTypeToZod(columnDef.type, {
+    selectOptions: columnDef.options ?? [],
+  });
   if (columnDef.validation) {
     schema = applyValidations(schema, columnDef.validation);
   }
