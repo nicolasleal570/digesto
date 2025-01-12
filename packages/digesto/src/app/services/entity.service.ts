@@ -1,12 +1,14 @@
 import { NotFoundError } from "../errors/http.errors.js";
 import { EntityRepository } from "../repositories/entity.repository.js";
 import type { ObjectLiteral } from "typeorm";
-import { YmlService } from "./yml.service.js";
+import { SchemaValidationService } from "./schema-validation.service.js";
+import { HashingService } from "./hashing.service.js";
 
 export class EntityService {
   constructor(
     private readonly entityRepository: EntityRepository,
-    private readonly ymlService: YmlService
+    private readonly schemaValidationService: SchemaValidationService,
+    private readonly hashingService: HashingService
   ) {}
 
   /**
@@ -37,8 +39,8 @@ export class EntityService {
     tableName: string,
     data: Record<string, any>
   ): Promise<ObjectLiteral> {
-    this.ymlService.validateTableSchema(tableName, data);
-    this.ymlService.validateAndHashSensitiveColumns(tableName, data);
+    this.schemaValidationService.validateTableSchema(tableName, data);
+    this.hashingService.hashSensitiveColumns(tableName, data);
 
     return this.entityRepository.create(tableName, data);
   }
@@ -59,7 +61,8 @@ export class EntityService {
       ...data,
     };
 
-    this.ymlService.validateTableSchema(tableName, updatedItem);
+    this.schemaValidationService.validateTableSchema(tableName, updatedItem);
+    this.hashingService.hashSensitiveColumns(tableName, updatedItem);
 
     return this.entityRepository.save(tableName, updatedItem);
   }
