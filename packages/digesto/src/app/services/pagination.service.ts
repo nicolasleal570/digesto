@@ -23,11 +23,11 @@ export class PaginationService {
     const totalItems = await query.getCount();
     const totalPages = Math.ceil(totalItems / perPage);
 
-    if (page > totalPages) {
+    if (totalPages > 0 && page > totalPages) {
       page = totalPages;
     }
 
-    const offset = (page - 1) * perPage;
+    const offset = Math.max((page - 1) * perPage, 0);
     const results = await query.skip(offset).take(perPage).getMany();
 
     return {
