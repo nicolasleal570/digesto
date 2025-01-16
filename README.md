@@ -81,6 +81,8 @@ tables:
 # more config...
 ```
 
+[Here](./packages/docs/example-1.md) you have a real-life use case example.
+
 4. Run the CLI
 
 Use the Digesto CLI to start the backend server:
