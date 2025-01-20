@@ -1,6 +1,6 @@
 {
   "name": "digesto",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "module",
   "description": "Digesto is an experimental Node.js/TypeScript library that quickly spins up a dynamic, RESTful backend from a simple YAML, NO manual server coding required.",
   "author": "Nicolás Leal <lealnicolas96@gmail.com>",
@@ -45,7 +45,8 @@
     "migration:generate": "npm run typeorm -- migration:generate ./src/migrations/digesto -d ./src/datasource.cli.ts",
     "migration:run": "npm run typeorm -- -d ./src/datasource.cli.ts migration:run",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "npm:publish": "pnpm run build && npm publish"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
